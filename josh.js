@@ -1,31 +1,82 @@
 var namespace = "http://www.w3.org/2000/svg"
-makeLine(100,0,100,200,"black",1)
-makeCircle(100,50,50,"blue", 1)
-makeCircle(61,40,10, "lightgreen",1)
-makeCircle(60,34,7, "lightgreen",1)
-makeCircle(57,43,7, "lightgreen",1)
-makeCircle(100,12,13,"white")
-makeCircle(91,13,13,"white")
-makeCircle(107,29,10,"blue")
-makeCircle(100,200,53, "black")
-makeCircle(100,200,50, "blue")
-makeCircle(70,200,49, "black")
-makeCircle(65,200,50, "white")
-makePolyline("40,160,20,200,50,180,50,", "gray", 3, 0.2)
-makeCircle(20,300,20, "blue")
-makeCircle(20,300,16, "white")
-makeCircle(40,325,20, "yellow")
-makeCircle(40,325,16, "white")
-makeCircle(60,300,20, "black")
-makeCircle(60,300,16, "white")
-makeCircle(80,325,20, "green")
-makeCircle(80,325,16, "white")
-makeCircle(100,300,20, "red")
-makeCircle(100,300,16, "white")
-makeCircle(160, 300, 30, "red")
-makeCircle(160,300,20, "white")
-makeCircle(160,300,10, "red")
+ makeRect( 150, 70, 5, 5, "white")
+ makeRect( 150, 50, 5, 5, "white")
+ makeRect( 150, 30, 5, 5, "white")
+ makeRect( 150, 10, 5, 5, "white")
+ makeRect( 150, 110, 5, 5, "white")
+ makeRect( 150, 130, 5, 5, "white")
+ makeRect( 150, 150, 5, 5, "white")
+ makeRect( 150, 170, 5, 5, "white")
+makeRect( 150, 90, 5, 5, "white")
+makeLine(0,1,300,1,"white")
+makeLine(0,186,300,186,"white")
+var paddle1 = makeRect( 20, 70, 5,50,"white")
+var paddle2 = makeRect( 280, 70, 5,50,"white")
+var ball = makeRect( 150, 90, 5, 5, "white")
+var score = 0
+var scoreText = makeText(score, 50, 20, 20, "sans-serif", "red")
+var score2 = 0
+var scoreText2= makeText(score, 250, 20, 20, "sans-serif", "blue")
+// DEFINE A FUNCTION named moveBall here.
+var leftright = 2
+var updown = 2
 
+addEventListener('keydown', ight)
+addEventListener('keydown', ight2)
+// DEFINE YOUR FUNCTION HERE
+function moveBall(){
+  var y = getY(ball) 
+  var x = getX(ball)
+ 
+
+
+  if(leftright > 0 && x > 295){
+    leftright = -2
+      
+ scoreText.innerHTML = score
+  } if (leftright < 0 && x < 0){
+    leftright = 2
+  
+ scoreText.innerHTML = score
+  } if (updown > 0 && y > 172){
+    updown = -2
+      
+ scoreText.innerHTML = score
+  } if (updown < 0 && y < 4){
+    updown = 2
+ scoreText.innerHTML = score
+  }
+  move(ball,leftright,updown)
+  requestAnimationFrame(moveBall)
+}
+  
+
+function ight(event){
+  var W = getX(paddle1)
+  var E = getY(paddle1)
+
+
+    if(event.key == "w" && E > 10){
+    move(paddle1,0,-15)
+    
+}
+ if(event.key == "s" && E < 120){
+    move(paddle1,0,15)
+ }
+}
+  
+function ight2(event){
+  
+  var E = getY(paddle2)
+    if(event.key == "o" && E > 10){
+    move(paddle2,0,-15)
+    
+}
+ if(event.key == "l" && E < 120){
+    move(paddle2,0,15)
+    
+}
+}
 
 // DO NOT EDIT CODE BELOW THIS LINE!
 function getX(shape) {
@@ -42,22 +93,6 @@ function getY(shape) {
   } else {
     return parseFloat(shape.getAttribute("cy"))
   }  
-}
-
-function setX(shape, x) {
-  if (shape.hasAttribute("x")) {
-    shape.setAttribute("x", x)
-  } else {
-    shape.setAttribute("cx", x)
-  } 
-}
-
-function setY(shape, y) {
-  if (shape.hasAttribute("y")) {
-    shape.setAttribute("y", y)
-  } else {
-    shape.setAttribute("cy", y)
-  } 
 }
 
 function move(shape, dx, dy) {
@@ -181,13 +216,4 @@ function makeImage(url, x, y, width, height, opacity) {
   var canvas = document.getElementById("canvas")
   canvas.appendChild(image)
   return image
-}
-
-function collides(rect1, rect2) {
-  var centerX = getX(rect1) + parseFloat(rect1.getAttribute("width"))/2
-  var centerY = getY(rect1) + parseFloat(rect1.getAttribute("height"))/2
-  return (centerX > getX(rect2) && 
-          centerX < getX(rect2) + parseFloat(rect2.getAttribute("width")) &&
-         centerY > getY(rect2) &&
-         centerY < getY(rect2) + parseFloat(rect2.getAttribute("height")))
 }
