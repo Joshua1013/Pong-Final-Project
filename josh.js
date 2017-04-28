@@ -10,16 +10,17 @@ var namespace = "http://www.w3.org/2000/svg"
 makeRect( 150, 90, 5, 5, "white")
 makeLine(0,1,300,1,"white")
 makeLine(0,186,300,186,"white")
+var GG2 = makeLine(300,0,300,186,"white")
 var paddle1 = makeRect( 20, 70, 5,50,"white")
 var paddle2 = makeRect( 280, 70, 5,50,"white")
 var ball = makeRect( 150, 90, 5, 5, "white")
-var score = 0
-var scoreText = makeText(score, 50, 20, 20, "sans-serif", "red")
+var score = 0;
+var GG = makeText(" "+ score, 50, 20, 20, "sans-serif", "red")
 var score2 = 0
 var scoreText2= makeText(score, 250, 20, 20, "sans-serif", "blue")
 // DEFINE A FUNCTION named moveBall here.
-var leftright = 2
-var updown = 2
+var leftright = 3
+var updown = 3
 
 addEventListener('keydown', ight)
 addEventListener('keydown', ight2)
@@ -28,24 +29,29 @@ function moveBall(){
   var y = getY(ball) 
   var x = getX(ball)
  
-
-
   if(leftright > 0 && x > 295){
-    leftright = -2
-      
- scoreText.innerHTML = score
-  } if (leftright < 0 && x < 0){
-    leftright = 2
-  
- scoreText.innerHTML = score
-  } if (updown > 0 && y > 172){
-    updown = -2
-      
- scoreText.innerHTML = score
-  } if (updown < 0 && y < 4){
-    updown = 2
- scoreText.innerHTML = score
+    leftright = -3
+  } 
+    if (leftright < 0 && x < 0){
+    leftright = 3  
   }
+    if (updown > 0 && y > 172){
+    updown = -3
+  } 
+    if (updown < 0 && y < 4){
+    updown = 3
+  }
+  if(collides(ball, paddle1)){
+   leftright = 3;   
+  } 
+ if(collides(ball, paddle2)){
+   leftright = -3;   
+  }
+    if(collides(ball,GG)){
+         score=score + 1
+scoreLabel.innerHTML = " "+score;
+    }
+    
   move(ball,leftright,updown)
   requestAnimationFrame(moveBall)
 }
@@ -93,6 +99,22 @@ function getY(shape) {
   } else {
     return parseFloat(shape.getAttribute("cy"))
   }  
+}
+
+function setX(shape, x) {
+  if (shape.hasAttribute("x")) {
+    shape.setAttribute("x", x)
+  } else {
+    shape.setAttribute("cx", x)
+  } 
+}
+
+function setY(shape, y) {
+  if (shape.hasAttribute("y")) {
+    shape.setAttribute("y", y)
+  } else {
+    shape.setAttribute("cy", y)
+  } 
 }
 
 function move(shape, dx, dy) {
@@ -216,4 +238,13 @@ function makeImage(url, x, y, width, height, opacity) {
   var canvas = document.getElementById("canvas")
   canvas.appendChild(image)
   return image
+}
+
+function collides(rect1, rect2) {
+  var centerX = getX(rect1) + parseFloat(rect1.getAttribute("width"))/2
+  var centerY = getY(rect1) + parseFloat(rect1.getAttribute("height"))/2
+  return (centerX > getX(rect2) && 
+          centerX < getX(rect2) + parseFloat(rect2.getAttribute("width")) &&
+         centerY > getY(rect2) &&
+         centerY < getY(rect2) + parseFloat(rect2.getAttribute("height")))
 }
