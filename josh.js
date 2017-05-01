@@ -10,31 +10,42 @@ var namespace = "http://www.w3.org/2000/svg"
 makeRect( 150, 90, 5, 5, "white")
 makeLine(0,1,300,1,"white")
 makeLine(0,186,300,186,"white")
+var point1 = makeLine(1,0,1,186,"white")
 var GG2 = makeLine(300,0,300,186,"white")
 var paddle1 = makeRect( 20, 70, 5,50,"white")
 var paddle2 = makeRect( 280, 70, 5,50,"white")
 var ball = makeRect( 150, 90, 5, 5, "white")
 var score = 0;
-var GG = makeText(" "+ score, 50, 20, 20, "sans-serif", "red")
-var score2 = 0
-var scoreText2= makeText(score, 250, 20, 20, "sans-serif", "blue")
+var scoreLabel = makeText(score, 50, 20, 20, "sans-serif", "red")
+var score2 = 0;
+var scoreLabel2 = makeText(score, 250, 20, 20, "sans-serif", "blue")
 // DEFINE A FUNCTION named moveBall here.
 var leftright = 3
 var updown = 3
 
-addEventListener('keydown', ight)
-addEventListener('keydown', ight2)
 // DEFINE YOUR FUNCTION HERE
 function moveBall(){
   var y = getY(ball) 
   var x = getX(ball)
  
+    
   if(leftright > 0 && x > 295){
     leftright = -3
+     ball.setAttribute("display", "none");  
+    ball = makeRect( 150, 90, 5, 5, "white")
+    score = score + 1
+    leftright = -3
+ scoreLabel.innerHTML = score        
   } 
+    
     if (leftright < 0 && x < 0){
-    leftright = 3  
-  }
+        leftright = 3
+    ball.setAttribute("display", "none");  
+        ball = makeRect( 150, 90, 5, 5, "white")
+    score2 = score2 + 1
+ scoreLabel2.innerHTML = score2
+ leftright = 3
+    }
     if (updown > 0 && y > 172){
     updown = -3
   } 
@@ -43,19 +54,28 @@ function moveBall(){
   }
   if(collides(ball, paddle1)){
    leftright = 3;   
+     
+ 
+  } 
+    if(collides(ball, point1)){
+
+     stopAnimationFrame(moveBall)
+ 
   } 
  if(collides(ball, paddle2)){
-   leftright = -3;   
+ 
+     leftright = -3;   
+         
   }
-    if(collides(ball,GG)){
-         score=score + 1
-scoreLabel.innerHTML = " "+score;
-    }
+    
     
   move(ball,leftright,updown)
   requestAnimationFrame(moveBall)
 }
   
+addEventListener('keydown', ight)
+addEventListener('keydown', ight2)
+addEventListener('keydown', begin)
 
 function ight(event){
   var W = getX(paddle1)
@@ -79,11 +99,14 @@ function ight2(event){
     
 }
  if(event.key == "l" && E < 120){
-    move(paddle2,0,15)
-    
+    move(paddle2,0,15)    
 }
 }
-
+function begin(){
+moveBall()
+removeEventListener('keydown', begin)  
+addEventListener('keydown', ight)
+addEventListener('keydown', ight2)
 // DO NOT EDIT CODE BELOW THIS LINE!
 function getX(shape) {
   if (shape.hasAttribute("x")) {
