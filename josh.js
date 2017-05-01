@@ -107,6 +107,7 @@ moveBall()
 removeEventListener('keydown', begin)  
 addEventListener('keydown', ight)
 addEventListener('keydown', ight2)
+}
 // DO NOT EDIT CODE BELOW THIS LINE!
 function getX(shape) {
   if (shape.hasAttribute("x")) {
