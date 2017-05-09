@@ -20,40 +20,41 @@ var scoreLabel = makeText(score, 50, 20, 20, "sans-serif", "red")
 var score2 = 0;
 var scoreLabel2 = makeText(score, 250, 20, 20, "sans-serif", "blue")
 // DEFINE A FUNCTION named moveBall here.
-var leftright = 3
-var updown = 3
-
+var leftright = 2.5
+var updown = 2.5
+var end = false;
+var text = "";
 // DEFINE YOUR FUNCTION HERE
 function moveBall(){
   var y = getY(ball) 
   var x = getX(ball)
- 
+  
     
   if(leftright > 0 && x > 295){
-    leftright = -3
+    leftright = -2.5
      ball.setAttribute("display", "none");  
     ball = makeRect( 150, 90, 5, 5, "white")
     score = score + 1
-    leftright = -3
+    leftright = -2.5
  scoreLabel.innerHTML = score        
   } 
     
     if (leftright < 0 && x < 0){
-        leftright = 3
+        leftright = 2.5
     ball.setAttribute("display", "none");  
         ball = makeRect( 150, 90, 5, 5, "white")
     score2 = score2 + 1
  scoreLabel2.innerHTML = score2
- leftright = 3
+ leftright = 2.5
     }
     if (updown > 0 && y > 172){
-    updown = -3
+    updown = -2.5
   } 
     if (updown < 0 && y < 4){
-    updown = 3
+    updown = 2.5
   }
   if(collides(ball, paddle1)){
-   leftright = 3;   
+   leftright = 2.5;   
      
  
   } 
@@ -68,7 +69,19 @@ function moveBall(){
          
   }
     
+    if(score == 11){
+    text = makeText("Player 1 Wins",70,100,30,"Press Start 2P","red")
     
+    end = true;
+    addEventListener('keydown',begin)
+    stoprequestAnimationFrame(moveBall)
+    }
+if(score2 == 11){
+    text = makeText("Player 2 Wins",70,100,30,"Press Start 2P","blue") 
+    end = true;
+    addEventListener('keydown',begin)
+    stoprequestAnimationFrame(moveBall)
+   }
   move(ball,leftright,updown)
   requestAnimationFrame(moveBall)
 }
@@ -103,10 +116,23 @@ function ight2(event){
 }
 }
 function begin(){
+if(end && event.key == "r"){
+ score = 0;
+ score2 = 0;
+ scoreLabel.innerHTML = score
+ scoreLabel2.innerHTML = score2
+ text.setAttribute("display", "none");
 moveBall()
 removeEventListener('keydown', begin)  
 addEventListener('keydown', ight)
 addEventListener('keydown', ight2)
+}
+ if(!end){
+moveBall()
+removeEventListener('keydown', begin)  
+addEventListener('keydown', ight)
+addEventListener('keydown', ight2)     
+ }
 }
 // DO NOT EDIT CODE BELOW THIS LINE!
 function getX(shape) {
