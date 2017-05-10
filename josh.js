@@ -85,35 +85,28 @@ if(score2 == 11){
   move(ball,leftright,updown)
   requestAnimationFrame(moveBall)
 }
-  
-addEventListener('keydown', ight)
-addEventListener('keydown', ight2)
+var e = [];  
+addEventListener('keydown', function(event){e[event.keyCode] = true;});
+addEventListener('keyup',  function(event){e[event.keyCode] = false;});
 addEventListener('keydown', begin)
 
-function ight(event){
-  var W = getX(paddle1)
-  var E = getY(paddle1)
-
-
-    if(event.key == "w" && E > 10){
-    move(paddle1,0,-15)
+function loop(){
+  var E = getY(paddle1) 
+  var W = getY(paddle2)
+  if(e[87] && E > 10){
+    move(paddle1,0,-1)    
+  }
+  else if(e[83] && E < 120){
+    move(paddle1,0,1)
+  }
     
-}
- if(event.key == "s" && E < 120){
-    move(paddle1,0,15)
- }
-}
-  
-function ight2(event){
-  
-  var E = getY(paddle2)
-    if(event.key == "o" && E > 10){
-    move(paddle2,0,-15)
-    
-}
- if(event.key == "l" && E < 120){
-    move(paddle2,0,15)    
-}
+  if(e[79] && W > 10){
+    move(paddle2,0,-1) 
+  }
+  else if(e[76] && W < 120){
+    move(paddle2,0,1)
+  }
+  setTimeout(loop,3);  
 }
 function begin(){
 if(end && event.key == "r"){
@@ -124,14 +117,15 @@ if(end && event.key == "r"){
  text.setAttribute("display", "none");
 moveBall()
 removeEventListener('keydown', begin)  
-addEventListener('keydown', ight)
-addEventListener('keydown', ight2)
+addEventListener('keydown', function(event){e[event.keyCode] = true;});
+addEventListener('keyup',  function(event){e[event.keyCode] = false;});
 }
  if(!end){
 moveBall()
 removeEventListener('keydown', begin)  
-addEventListener('keydown', ight)
-addEventListener('keydown', ight2)     
+addEventListener('keydown', function(event){e[event.keyCode] = true;});
+addEventListener('keyup',  function(event){e[event.keyCode] = false;});
+loop();
  }
 }
 // DO NOT EDIT CODE BELOW THIS LINE!
