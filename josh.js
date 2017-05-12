@@ -20,8 +20,8 @@ var scoreLabel = makeText(score, 50, 20, 20, "sans-serif", "red")
 var score2 = 0;
 var scoreLabel2 = makeText(score, 250, 20, 20, "sans-serif", "blue")
 // DEFINE A FUNCTION named moveBall here.
-var leftright = 2.5
-var updown = 2.5
+var leftright = 3.5
+var updown = 3.5
 var end = false;
 var text = "";
 // DEFINE YOUR FUNCTION HERE
@@ -31,30 +31,30 @@ function moveBall(){
   
     
   if(leftright > 0 && x > 295){
-    leftright = -2.5
+    leftright = -3.5
      ball.setAttribute("display", "none");  
     ball = makeRect( 150, 90, 5, 5, "white")
     score = score + 1
-    leftright = -2.5
+    leftright = -3.5
  scoreLabel.innerHTML = score        
   } 
     
     if (leftright < 0 && x < 0){
-        leftright = 2.5
+        leftright = 3.5
     ball.setAttribute("display", "none");  
         ball = makeRect( 150, 90, 5, 5, "white")
     score2 = score2 + 1
  scoreLabel2.innerHTML = score2
- leftright = 2.5
+ leftright = 3.5
     }
     if (updown > 0 && y > 172){
-    updown = -2.5
+    updown = -3.5
   } 
     if (updown < 0 && y < 4){
-    updown = 2.5
+    updown = 3.5
   }
   if(collides(ball, paddle1)){
-   leftright = 2.5;   
+   leftright = 3.5;   
      
  
   } 
@@ -93,17 +93,17 @@ addEventListener('keydown', begin)
 function loop(){
   var E = getY(paddle1) 
   var W = getY(paddle2)
-  if(e[87] && E > 10){
+  if(e[87] && E > 4){
     move(paddle1,0,-1)    
   }
-  else if(e[83] && E < 120){
+  else if(e[83] && E < 133){
     move(paddle1,0,1)
   }
     
-  if(e[79] && W > 10){
+  if(e[79] && W > 4){
     move(paddle2,0,-1) 
   }
-  else if(e[76] && W < 120){
+  else if(e[76] && W < 133){
     move(paddle2,0,1)
   }
   setTimeout(loop,3);  
